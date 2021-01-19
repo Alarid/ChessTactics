@@ -11,12 +11,7 @@ interface Props {
   onSolve: () => void
 }
 
-const TacticBoard: React.FC<Props> = ({
-  tactic,
-  onIncorrect,
-  onCorrect,
-  onSolve,
-}) => {
+const TacticBoard: React.FC<Props> = ({ tactic, onIncorrect, onCorrect, onSolve }) => {
   const [fen, setFen] = useState(tactic.fen)
   const [solution, setSolution] = useState(tactic.solution)
 
@@ -26,7 +21,7 @@ const TacticBoard: React.FC<Props> = ({
       if (next) {
         setFen(next.fen)
       }
-    }, 100);
+    }, 100)
   }, [tactic])
 
   const handleMove = (move: ShortMove) => {
@@ -34,16 +29,12 @@ const TacticBoard: React.FC<Props> = ({
 
     if (next) {
       setFen(next.fen)
-      setSolution(next.solution);
+      setSolution(next.solution)
 
       if (next.solution.length > 0) {
-        onCorrect();
+        onCorrect()
 
-        const autoNext = validateMove(
-          next.fen,
-          next.solution[0],
-          next.solution
-        )
+        const autoNext = validateMove(next.fen, next.solution[0], next.solution)
 
         if (autoNext) {
           setFen(autoNext.fen)
@@ -62,12 +53,12 @@ const TacticBoard: React.FC<Props> = ({
       transitionDuration={200}
       position={fen}
       width={400}
-      orientation={getSideToPlayFromFen(tactic.fen) === "b" ? "white" : "black"}
+      orientation={getSideToPlayFromFen(tactic.fen) === 'b' ? 'white' : 'black'}
       onDrop={(move) =>
         handleMove({
           from: move.sourceSquare,
           to: move.targetSquare,
-          promotion: "q",
+          promotion: 'q',
         })
       }
     />

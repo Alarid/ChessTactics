@@ -1,11 +1,10 @@
-import axios from "axios"
-import Tactic from "../types/Tactic"
+import axios from 'axios'
+import Tactic from '../types/Tactic'
 
 export const fetchTactic = async (): Promise<Tactic> => {
-  const res = await axios.post(
-    `${process.env.REACT_APP_CHESSBLUNDERS_API}/blunder/get`,
-    { type: 'explore' }
-  )
+  const res = await axios.post(`${process.env.REACT_APP_CHESSBLUNDERS_API}/blunder/get`, {
+    type: 'explore',
+  })
   const data = res.data.data
   return {
     id: data.id,
