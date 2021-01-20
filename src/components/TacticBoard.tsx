@@ -9,9 +9,16 @@ interface Props {
   onIncorrect: () => void
   onCorrect: () => void
   onSolve: () => void
+  registerMove: (fen: string, move: string) => void
 }
 
-const TacticBoard: React.FC<Props> = ({ tactic, onIncorrect, onCorrect, onSolve }) => {
+const TacticBoard: React.FC<Props> = ({
+  tactic,
+  onIncorrect,
+  onCorrect,
+  onSolve,
+  registerMove,
+}) => {
   const [fen, setFen] = useState(tactic.fen)
   const [solution, setSolution] = useState(tactic.solution)
 
@@ -20,6 +27,7 @@ const TacticBoard: React.FC<Props> = ({ tactic, onIncorrect, onCorrect, onSolve 
       const next = makeMove(tactic.fen, tactic.blunderMove)
       if (next) {
         setFen(next.fen)
+        registerMove(next.fen, next.fullMove.san)
       }
     }, 100)
   }, [tactic])
@@ -30,6 +38,7 @@ const TacticBoard: React.FC<Props> = ({ tactic, onIncorrect, onCorrect, onSolve 
     if (next) {
       setFen(next.fen)
       setSolution(next.solution)
+      registerMove(next.fen, next.san)
 
       if (next.solution.length > 0) {
         onCorrect()
@@ -39,6 +48,7 @@ const TacticBoard: React.FC<Props> = ({ tactic, onIncorrect, onCorrect, onSolve 
         if (autoNext) {
           setFen(autoNext.fen)
           setSolution(autoNext.solution)
+          registerMove(autoNext.fen, autoNext.san)
         }
       } else {
         onSolve()
@@ -52,7 +62,7 @@ const TacticBoard: React.FC<Props> = ({ tactic, onIncorrect, onCorrect, onSolve 
     <Chessboard
       transitionDuration={200}
       position={fen}
-      width={400}
+      width={450}
       orientation={getSideToPlayFromFen(tactic.fen) === 'b' ? 'white' : 'black'}
       onDrop={(move) =>
         handleMove({

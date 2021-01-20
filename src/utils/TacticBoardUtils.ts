@@ -20,7 +20,7 @@ export function validateMove(
   fen: string,
   move: ShortMove | string,
   solution: string[]
-): null | { solution: string[]; fen: string } {
+): null | { solution: string[]; fen: string; san: string } {
   if (solution.length === 0) {
     return null
   }
@@ -29,6 +29,7 @@ export function validateMove(
   if (next && next.fullMove.san === solution[0]) {
     return {
       fen: next.fen,
+      san: next.fullMove.san,
       solution: solution.slice(1),
     }
   }

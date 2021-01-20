@@ -9,10 +9,12 @@ import Tactic from './types/Tactic'
 import { getSideToPlayFromFen } from './utils/TacticBoardUtils'
 import GameStatus from './components/GameStatus'
 import GameInfos from './components/GameInfos'
+import GameHistory from './components/GameHistory'
+import TacticHistory from './types/TacticHistory'
 
 const ControlStrip = styled.div`
   width: 100%;
-  margin: 30px auto;
+  margin: 30px auto 20px auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,7 +22,7 @@ const ControlStrip = styled.div`
 
 const Skeleton: React.FC = ({ children }) => (
   <Container className="text-center py-3">
-    <h1 className="mb-3">Tactics Trainer</h1>
+    <h1 className="mb-3">Chess Tactics Trainer</h1>
     {children}
   </Container>
 )
@@ -31,8 +33,14 @@ const App: React.FC = () => {
   const [tactics, setTactics] = useState<Tactic[]>([])
   const [boardKey, setBoardKey] = useState<number>(Date.now())
   const [hint, setHint] = useState<'sideToPlay' | 'incorrect' | 'correct' | 'solved'>('sideToPlay')
+  const [history, setHistory] = useState<TacticHistory[]>([])
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+
+  const addMoveToHistory = (fen: string, move: string) => {
+    const turn = Number(fen.split(' ').slice(-1).pop())
+    setHistory((history) => [...history, { turn, move }])
+  }
 
   // Fetch a new tactic from API
   const loadTactic = async () => {
@@ -42,6 +50,12 @@ const App: React.FC = () => {
     } else {
       setError('Oops, something went wrong...')
     }
+  }
+
+  const resetBoard = () => {
+    setHint('sideToPlay')
+    setMessage('')
+    setHistory([])
   }
 
   // Load 2 tactics on component mount (1 for now, 1 for later)
@@ -81,6 +95,7 @@ const App: React.FC = () => {
           <TacticBoard
             key={tacticKey}
             tactic={tactic}
+            registerMove={addMoveToHistory}
             onCorrect={() => {
               setHint('correct')
               setTimeout(() => setHint('sideToPlay'), 1000)
@@ -97,8 +112,7 @@ const App: React.FC = () => {
               )
               setTimeout(() => {
                 setTactics((it) => it.slice(1))
-                setHint('sideToPlay')
-                setMessage('')
+                resetBoard()
               }, DELAY_BETWEEN_TACTICS)
             }}
           />
@@ -107,7 +121,7 @@ const App: React.FC = () => {
               variant="light"
               onClick={() => {
                 setBoardKey(Date.now())
-                setHint('sideToPlay')
+                resetBoard()
               }}
             >
               <RefreshCw className="mr-1" /> Restart
@@ -126,6 +140,7 @@ const App: React.FC = () => {
           </ControlStrip>
           <GameInfos key={`${tacticKey}-infos`} id={tactic.id} />
           {message.length > 0 && <Alert variant="success">{message}</Alert>}
+          <GameHistory history={history} />
         </div>
       </div>
     </Skeleton>
