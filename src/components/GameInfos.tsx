@@ -3,18 +3,14 @@ import { Crosshair, Heart, MessageCircle, ThumbsDown, ThumbsUp } from 'react-fea
 import styled from 'styled-components/macro'
 import { transparentize } from 'polished'
 import { fetchTacticInfos } from 'src/services/fetchTactic'
-import TacticInfos from 'src/types/TacticInfos'
-import PlayerInfos from './PlayerInfos'
+import { Player, TacticInfos } from 'src/types/TacticInfos'
 
 type Props = {
   id: string
+  registerPlayers: (black: Player, white: Player) => void
 }
 
 const Container = styled.div`
-  position: absolute;
-  top: 30px;
-  right: -30px;
-  transform: translateX(100%);
   display: flex;
   flex-direction: column;
 `
@@ -36,17 +32,14 @@ const Info = styled.div`
   }
 `
 
-const PlayerInfosContainer = styled.div`
-  margin-top: 50px;
-`
-
-const GameInfos: React.FC<Props> = ({ id }) => {
+const GameInfos: React.FC<Props> = ({ id, registerPlayers }) => {
   const [infos, setInfos] = useState<TacticInfos>()
 
   const loadInfos = async () => {
     const data = await fetchTacticInfos(id)
     if (data) {
       setInfos(data)
+      registerPlayers(data.players.black, data.players.white)
     }
   }
 
@@ -78,10 +71,6 @@ const GameInfos: React.FC<Props> = ({ id }) => {
         <MessageCircle />
         <span>{infos.comments.length}</span>
       </Info>
-      <PlayerInfosContainer>
-        <PlayerInfos side="b" name={infos.players.black.name} elo={infos.players.black.elo} />
-        <PlayerInfos side="w" name={infos.players.white.name} elo={infos.players.white.elo} />
-      </PlayerInfosContainer>
     </Container>
   )
 }

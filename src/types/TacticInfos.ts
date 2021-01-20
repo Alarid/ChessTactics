@@ -1,9 +1,9 @@
-type Player = {
+export type Player = {
   name: string
   elo: number
 }
 
-export default interface TacticInfos {
+export type TacticInfos = {
   comments: string[]
   likes: number
   dislikes: number

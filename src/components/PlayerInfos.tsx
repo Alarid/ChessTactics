@@ -1,4 +1,5 @@
 import React from 'react'
+import { Card } from 'react-bootstrap'
 
 type Props = {
   side: 'b' | 'w'
@@ -8,11 +9,15 @@ type Props = {
 
 const PlayerInfos: React.FC<Props> = ({ side, name, elo }) => {
   return (
-    <p className="mt-2 mb-1 text-left">
-      <strong>{side === 'b' ? 'Black' : 'White'}</strong>
-      <br />
-      {name} ({elo})
-    </p>
+    <Card className="shadow-sm">
+      <Card.Body>
+        <div className="d-flex flex-column">
+          <strong>{side === 'b' ? 'Black' : 'White'}</strong>
+          <span>{name}</span>
+          <span>({elo})</span>
+        </div>
+      </Card.Body>
+    </Card>
   )
 }
 

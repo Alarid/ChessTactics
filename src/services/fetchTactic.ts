@@ -1,5 +1,5 @@
 import axios from 'axios'
-import TacticInfos from 'src/types/TacticInfos'
+import { TacticInfos } from 'src/types/TacticInfos'
 import Tactic from '../types/Tactic'
 
 const API_URL = process.env.REACT_APP_CHESSBLUNDERS_API
