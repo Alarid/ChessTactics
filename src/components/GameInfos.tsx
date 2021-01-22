@@ -4,17 +4,21 @@ import styled from 'styled-components/macro'
 import { transparentize } from 'polished'
 import { fetchTacticInfos } from 'src/services/fetchTactic'
 import { Player, TacticInfos } from 'src/types/TacticInfos'
+import { FakeInfo } from 'src/styles/placeholder'
 
+// Props
 type Props = {
   id: string
   registerPlayers: (black: Player, white: Player) => void
 }
 
+// Container
 const Container = styled.div`
   display: flex;
   flex-direction: column;
 `
 
+// Info block
 const Info = styled.div`
   display: flex;
   flex-direction: row;
@@ -32,9 +36,18 @@ const Info = styled.div`
   }
 `
 
+// Game infos component
+// Show informations about current blunder
+// (elo, number of likes, dislikes and comments)
 const GameInfos: React.FC<Props> = ({ id, registerPlayers }) => {
   const [infos, setInfos] = useState<TacticInfos>()
 
+  // Fetch infos on component mount
+  useEffect(() => {
+    loadInfos()
+  }, [])
+
+  // Fetch game infos from API
   const loadInfos = async () => {
     const data = await fetchTacticInfos(id)
     if (data) {
@@ -43,33 +56,35 @@ const GameInfos: React.FC<Props> = ({ id, registerPlayers }) => {
     }
   }
 
-  useEffect(() => {
-    loadInfos()
-  }, [])
+  // Render an information value, or fake data
+  // if informations haven't been fetched yet
+  const renderInfo = (info: number | undefined) => {
+    if (typeof info !== 'undefined') return <span>{info}</span>
+    return <FakeInfo>1234</FakeInfo>
+  }
 
-  if (!infos) return <></>
-
+  // Render
   return (
     <Container>
       <Info>
         <Crosshair />
-        <span>{infos.elo}</span>
+        {renderInfo(infos?.elo)}
       </Info>
       <Info>
         <Heart />
-        <span>{infos.favorites}</span>
+        {renderInfo(infos?.favorites)}
       </Info>
       <Info>
         <ThumbsUp />
-        <span>{infos.likes}</span>
+        {renderInfo(infos?.likes)}
       </Info>
       <Info>
         <ThumbsDown />
-        <span>{infos.dislikes}</span>
+        {renderInfo(infos?.dislikes)}
       </Info>
       <Info>
         <MessageCircle />
-        <span>{infos.comments.length}</span>
+        {renderInfo(infos?.comments.length)}
       </Info>
     </Container>
   )
