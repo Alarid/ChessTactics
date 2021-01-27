@@ -15,6 +15,7 @@ import GameInfos from './components/GameInfos'
 import GameHistory from './components/GameHistory'
 import PlayerInfos from './components/PlayerInfos'
 
+// Area for the game controls (restart, next, ...)
 const ControlStrip = styled.div`
   width: 100%;
   margin: 30px auto 20px auto;
@@ -23,6 +24,7 @@ const ControlStrip = styled.div`
   align-items: center;
 `
 
+// Container to show game informations (rank, likes, dislikes, ...)
 const GameInfosContainer = styled.div`
   width: 100px;
   display: flex;
@@ -32,6 +34,8 @@ const GameInfosContainer = styled.div`
   margin-top: 50px;
 `
 
+// Main container for the app
+// TODO refactor
 const Skeleton: React.FC = ({ children }) => (
   <Container className="text-center py-3">
     <h1 className="mb-3">Chess Tactics Trainer</h1>
@@ -39,15 +43,17 @@ const Skeleton: React.FC = ({ children }) => (
   </Container>
 )
 
-const DELAY_BETWEEN_TACTICS = 3000
+// 5 seconds between each blunder
+const DELAY_BETWEEN_TACTICS = 5000
 
+// App Component
 const App: React.FC = () => {
   const [tactics, setTactics] = useState<Tactic[]>([])
   const [boardKey, setBoardKey] = useState<number>(Date.now())
   const [hint, setHint] = useState<'sideToPlay' | 'incorrect' | 'correct' | 'solved'>('sideToPlay')
   const [history, setHistory] = useState<TacticHistory[]>([])
-  const [playerBlack, setPlayerBlack] = useState<Player>()
-  const [playerWhite, setPlayerWhite] = useState<Player>()
+  const [playerBlack, setPlayerBlack] = useState<Player | null>()
+  const [playerWhite, setPlayerWhite] = useState<Player | null>()
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
 
@@ -72,6 +78,8 @@ const App: React.FC = () => {
     setHint('sideToPlay')
     setMessage('')
     setHistory([])
+    setPlayerBlack(null)
+    setPlayerWhite(null)
   }
 
   // Fetch players from game infos component
@@ -166,7 +174,7 @@ const App: React.FC = () => {
                   onClick={() => {
                     loadTactic()
                     setTactics((it) => it.slice(1))
-                    setHint('sideToPlay')
+                    resetBoard()
                   }}
                 >
                   Next <ArrowRight className="ml-1" />
@@ -176,16 +184,14 @@ const App: React.FC = () => {
           </div>
         </Col>
         <Col xs={12} md={6} className="justify-content-left">
-          {playerBlack && playerWhite && (
-            <Row className="mb-3">
-              <Col xs={6}>
-                <PlayerInfos side="b" name={playerBlack.name} elo={playerBlack.elo} />
-              </Col>
-              <Col xs={6}>
-                <PlayerInfos side="w" name={playerWhite.name} elo={playerWhite.elo} />
-              </Col>
-            </Row>
-          )}
+          <Row className="mb-3">
+            <Col xs={6}>
+              <PlayerInfos side="b" name={playerBlack?.name} elo={playerBlack?.elo} />
+            </Col>
+            <Col xs={6}>
+              <PlayerInfos side="w" name={playerWhite?.name} elo={playerWhite?.elo} />
+            </Col>
+          </Row>
           {message.length > 0 && <Alert variant="success">{message}</Alert>}
           <GameHistory history={history} />
         </Col>
