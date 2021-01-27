@@ -1,43 +1,40 @@
-# Getting Started with Create React App
+# Chess Tactics Trainer
+
+Practice your chess skills by playing random chess puzzles.
+
+![screenshot](./public/screenshot-v1.png)
+
+
+![](https://img.shields.io/badge/Framework-React-informational?style=flat&logo=React&logoColor=white)
+![](https://img.shields.io/badge/Framework-Bootstrap-blueviolet?style=flat&logo=Bootstrap&logoColor=white)
+![](https://img.shields.io/badge/Language-TypeScript-informational?style=flat&logo=TypeScript&logoColor=white&color=4AB197)
+
+This app was made using the following projects:
+* [ChessboardJSX](https://github.com/willb335/chessboardjsx) to display the chess board & pieces
+* [chess.js](https://github.com/jhlywa/chess.js) for chess move generation/validation, piece placement/movement, and check/checkmate/stalemate detection - basically everything but the AI.
+* [Chess Blunders API](https://chessblunders.org/api) to fetch random chess puzzles, along with game & player informations
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## UI
+The UI shows informations about the current puzzle on the left, fetched from Chess Blunders API:
+* Rank
+* Number of favs
+* Number of likes
+* Number of dislikes
+* Number of comments
 
-In the project directory, you can run:
+On the right there are informations (if available) about the actual game from which came the puzzle: who played black and who played white (name + rank). There is also the history of moves made in the game.
 
-### `yarn start`
+## Features
+* Play current puzzle until you solve it - _Note: you can only make a certain move each time, the good one 👌_
+* Restart current puzzle
+* Go to next puzzle
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Roadmap
+- [ ] Hint button
+- [ ] Timer
+- [ ] Scoring system
 
 ## Licence
 ![Licence](https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png)
