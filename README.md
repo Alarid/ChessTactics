@@ -32,6 +32,7 @@ On the right there are informations (if available) about the actual game from wh
 * Go to next puzzle
 
 ## Roadmap
+- [ ] Github Pages hosting + CI/CD
 - [ ] Hint button
 - [ ] Timer
 - [ ] Scoring system
