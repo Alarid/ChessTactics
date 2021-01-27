@@ -2,12 +2,14 @@ import React from 'react'
 import { Card } from 'react-bootstrap'
 import { FakeInfo } from 'src/styles/placeholder'
 
+// Props
 type Props = {
   side: 'b' | 'w'
   name?: string
   elo?: number
 }
 
+// Player informations: color, name and elo
 const PlayerInfos: React.FC<Props> = ({ side, name, elo }) => {
   return (
     <Card className="shadow-sm">

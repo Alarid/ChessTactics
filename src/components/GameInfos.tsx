@@ -3,7 +3,6 @@ import { Crosshair, Heart, MessageCircle, ThumbsDown, ThumbsUp } from 'react-fea
 import styled from 'styled-components/macro'
 import { transparentize } from 'polished'
 import { fetchTacticInfos } from 'src/services/fetchTactic'
-import { Player, TacticInfos } from 'src/types/TacticInfos'
 import { FakeInfo } from 'src/styles/placeholder'
 
 // Props
@@ -14,8 +13,12 @@ type Props = {
 
 // Container
 const Container = styled.div`
+  width: 100px;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  margin-right: 15px;
+  margin-top: 50px;
 `
 
 // Info block
@@ -66,26 +69,28 @@ const GameInfos: React.FC<Props> = ({ id, registerPlayers }) => {
   // Render
   return (
     <Container>
-      <Info>
-        <Crosshair />
-        {renderInfo(infos?.elo)}
-      </Info>
-      <Info>
-        <Heart />
-        {renderInfo(infos?.favorites)}
-      </Info>
-      <Info>
-        <ThumbsUp />
-        {renderInfo(infos?.likes)}
-      </Info>
-      <Info>
-        <ThumbsDown />
-        {renderInfo(infos?.dislikes)}
-      </Info>
-      <Info>
-        <MessageCircle />
-        {renderInfo(infos?.comments.length)}
-      </Info>
+      <div className="d-flex flex-column">
+        <Info>
+          <Crosshair />
+          {renderInfo(infos?.elo)}
+        </Info>
+        <Info>
+          <Heart />
+          {renderInfo(infos?.favorites)}
+        </Info>
+        <Info>
+          <ThumbsUp />
+          {renderInfo(infos?.likes)}
+        </Info>
+        <Info>
+          <ThumbsDown />
+          {renderInfo(infos?.dislikes)}
+        </Info>
+        <Info>
+          <MessageCircle />
+          {renderInfo(infos?.comments.length)}
+        </Info>
+      </div>
     </Container>
   )
 }

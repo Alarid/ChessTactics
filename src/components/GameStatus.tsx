@@ -1,11 +1,13 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 
+// Props
 type Props = {
   hint: 'sideToPlay' | 'incorrect' | 'correct' | 'solved'
   whiteTurn: boolean
 }
 
+// Game Status: black / white to move, correct move, incorrect move, ...
 const GameStatus: React.FC<Props> = ({ hint, whiteTurn }) => (
   <>
     {hint === 'sideToPlay' && (

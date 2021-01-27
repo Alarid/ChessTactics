@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { ShortMove } from 'chess.js'
 import Chessboard from 'chessboardjsx'
-import Tactic from '../types/Tactic'
 import { getSideToPlayFromFen, makeMove, validateMove } from '../utils/TacticBoardUtils'
 
 interface Props {
